@@ -1,9 +1,13 @@
 import express, { urlencoded } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import dotenv from "dotenv"
+import conectDB from "./utils/db.js";
+
+dotenv.config({});
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 4000;
 
 // responce lke api
 app.get("/", (req, res) => {
@@ -27,6 +31,7 @@ app.use(cors(corsOptions));
 
 
 app.listen(PORT, ()=>{
+    conectDB();
     console.log(`Server listen at PORT ${PORT}`);
     
 })
