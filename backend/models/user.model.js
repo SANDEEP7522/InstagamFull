@@ -2,12 +2,14 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema( // creat userInformation
   {
-    username: {  // about name
+    username: {
+      // about name
       type: String,
       required: true,
       unique: true,
     },
-    email: { // about eamil
+    email: {
+      // about eamil
       type: String,
       required: true,
       unique: true,
@@ -16,45 +18,45 @@ const userSchema = new mongoose.Schema( // creat userInformation
       type: String,
       required: true,
     },
-    profilepicture: { // uplode for profile picture
+    profilepicture: {
+      // uplode for profile picture
       type: String,
       default: "",
     },
-    bio: { // about detail information
+    bio: {
+      // about detail information
       type: String,
       default: "",
     },
     gender: {
       type: String,
-      enum: ["male", "female", "other"],
+      enum: ["Male", "Female", "Other"],
     },
     followers: [
       {
         type: mongoose.Schema.Types.ObjectId, // for data other modles
-        ref: "user",
+        ref: "User",
       },
     ],
     following: [
       {
-        type: mongoose.Schema.Types.ObjectId,// for data other modles
-        ref: "user",
+        type: mongoose.Schema.Types.ObjectId, // for data other modles
+        ref: "User",
       },
     ],
     posts: [
       {
-        type: mongoose.Schema.Types.ObjectId,// for data other modles
-        ref: "post",
+        type: mongoose.Schema.Types.ObjectId, // for data other modles
+        ref: "Post",
       },
     ],
     bookmarks: [
       {
-        type: mongoose.Schema.Types.ObjectId,// for data other modles
-        ref: "post",
+        type: mongoose.Schema.Types.ObjectId, // for data other modles
+        ref: "Post",
       },
     ],
   },
-  { timestamps: true } // for creatAt date , updateAt Date 
+  { timestamps: true } // for creatAt date , updateAt Date
 );
- export const User = mongoose.model('User', userSchema); // export r u want to othet place
-
-
+export const User = mongoose.model("User", userSchema); // export r u want to othet place
