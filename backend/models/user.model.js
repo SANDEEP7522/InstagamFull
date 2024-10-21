@@ -59,4 +59,5 @@ const userSchema = new mongoose.Schema( // creat userInformation
   },
   { timestamps: true } // for creatAt date , updateAt Date
 );
-export default User = mongoose.model("User", userSchema); // export r u want to othet place
+const User = mongoose.model("User", userSchema); 
+export default User;

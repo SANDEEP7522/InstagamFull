@@ -1,4 +1,4 @@
-import { v1 as cloudinary } from "cloudinary"; // like convert name or same
+import { v2 as cloudinary } from "cloudinary"; // like convert name or same
 import dotenv from 'dotenv';
 dotenv.config({});
 
