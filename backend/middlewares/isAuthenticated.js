@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 
-export const isAuthenticated = async (req, res, next) => {
+ const isAuthenticated = async (req, res, next) => {
  try {
     const token = req.cookies.token; //  take token from user.controlles
     if(!token){
@@ -24,3 +24,4 @@ export const isAuthenticated = async (req, res, next) => {
         
     }
 }
+export default isAuthenticated;
