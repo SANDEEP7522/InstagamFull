@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema( // creat userInformation
       type: String,
       required: true,
     },
-    profilepicture: {
+    profilePicture: {
       // uplode for profile picture
       type: String,
       default: "",
@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema( // creat userInformation
       },
     ],
   },
-  { timestamps: true } // for creatAt date , updateAt Date
+  { timestamps:true} // for creatAt date , updateAt Date
 );
 const User = mongoose.model("User", userSchema); 
 export default User;

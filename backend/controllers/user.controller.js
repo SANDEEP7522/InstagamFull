@@ -85,7 +85,7 @@ export const login = async (req, res) => {
 
     // use toke for security youPassword hacker not get
     const token = await jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
-      expiresIn: "id",
+      expiresIn: "1d",
     });
     return res
       .cookie("token", token, {
@@ -119,7 +119,7 @@ export const logout = async (req, res) => {
 export const getProfile = async (req, res) => {
   try {
     const userId = req.params.id;
-    let user = await User.findById(userId);
+    let user = await User.findById(userId).select('-password');
     return res.status(200).json({
       user,
       success: true,
@@ -136,12 +136,13 @@ export const editProfile = async (req, res) => {
     const { bio, gender } = req.body;
     const profilePicture = req.file;
     let cloudResponse;
+    
     if (profilePicture) {
       const fileUri = getDatauri(profilePicture);
-      cloudResponse = cloudinary.uploader.upload(fileUri);
+      cloudResponse = await cloudinary.uploader.upload(fileUri);
     }
-    // that user we want to update
-    const user = await User.findById(userId);
+    // that user we want to update (-password for egnore)
+    const user = await User.findById(userId).select('-password');
     if (!user) {
       return res.status(404).json({
         message: "User not found",
@@ -162,6 +163,11 @@ export const editProfile = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: "An error occurred while updating the profile",
+      success: false,
+      error: error.message,
+    });
   }
 };
 
@@ -188,8 +194,10 @@ export const getSuggestedUsers = async (req, res) => {
 // followers and following
 export const followingOrFolloers = async (req, res) => {
   try {
-    const follow = req.id; // its my id here, i am follow other person
-    const followings = req.params.id; // follow by my id or me
+    const follow = req.id; // Your ID
+    const followings = req.params.id; // The ID of the user to follow or unfollow
+
+    
     if (follow === followings) {
       return res.status(400).json({
         massage: "You are not able to follow/Unfollow it self!",
@@ -208,7 +216,7 @@ export const followingOrFolloers = async (req, res) => {
     }
 
     // may i check whether to follow or not
-    const isFollowing = user.following.includes(follow);
+    const isFollowing = user.following.includes(followings);
     if (isFollowing) {
       // unfollow
       await Promise.all([
