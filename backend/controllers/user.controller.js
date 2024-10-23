@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import getDatauri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
+import Post from "../models/post.model.js";
 
 // user register with details
 export const register = async (req, res) => {
@@ -70,6 +71,22 @@ export const login = async (req, res) => {
         success: false,
       });
     }
+     // use toke for security youPassword hacker not get
+     const token = await jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "1d",
+    });
+
+    // populate each post  if in posts array
+    const populatedPosts = await Promise.all(
+      user.posts.map( async (postId) => {
+        const post = await Post.findById(postId);
+        if(post.author.equals(user._id)){
+          return post;
+        }
+        return null;
+      })
+    )
+
 
     // store in frontend
     user = {
@@ -80,13 +97,10 @@ export const login = async (req, res) => {
       bio: user.bio,
       followers: user.followers,
       following: user.following,
-      posts: user.posts,
+      posts: populatedPosts,
     };
 
-    // use toke for security youPassword hacker not get
-    const token = await jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
-      expiresIn: "1d",
-    });
+  
     return res
       .cookie("token", token, {
         httpOnly: true,

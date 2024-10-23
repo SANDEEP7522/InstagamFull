@@ -1,6 +1,6 @@
 // for chat support 
 
-import Conversation from "../models/conversetion.model";
+import Conversation from "../models/conversetion.model.js";
 
 // send  message logic
 export const sendMessage = async (req, res) =>{

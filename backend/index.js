@@ -4,6 +4,9 @@ import cors from "cors";
 import dotenv from "dotenv"
 import conectDB from "./utils/db.js";
 import userRoute from "./routes/user.route.js"
+import postRout from "./routes/post.route.js"
+import messageRoute from "./routes/message.rout.js"
+
 
 dotenv.config({});
 
@@ -32,6 +35,9 @@ app.use(cors(corsOptions));
 // api here
 app.use("/api/v1/user", userRoute);
 // 'http.//localhost:8000/api/v1/user/resiter' it's our api working like this and show your browser screen 
+
+app.use("/api/v1/post", postRout);
+app.use("/api/v1/message", messageRoute);
 
 
 
