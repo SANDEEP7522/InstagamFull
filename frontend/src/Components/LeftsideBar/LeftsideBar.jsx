@@ -53,7 +53,7 @@ function LeftsideBar() {
   };
   return (
     <div className="bg-gradient-to-r from-cyan-300 to-blue-300">
-      <div className=" top-2 z-10 px-3 h-screen w-[15%] bg-pink-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-200 ">
+      <div className=" flex top-2 z-10 px-3 left-0 h-screen w-[15%] bg-pink-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-200 ">
         <div className=" flex flex-col">
           <h1 className="flex font-bold text-2xl m-3 ">Instagram</h1>
           {sidebarItem.map((item, index) => {
@@ -61,7 +61,7 @@ function LeftsideBar() {
               <div
                 onClick={() => sidebarHandler(item.text)}
                 key={index}
-                className="flex items-center m-2 relative hover:bg-gray-400 cursor-pointer rounded-lg p-2 gap-2 my-3 "
+                className="flex items-center m-2 relative hover:bg-gray-400 cursor-pointer rounded-lg p-2 gap-3 my-3 "
               >
                 {item.icon}
                 <span>{item.text}</span>
@@ -69,7 +69,7 @@ function LeftsideBar() {
             );
           })}
         </div>
-      </div>
+       </div> 
     </div>
   );
 }
