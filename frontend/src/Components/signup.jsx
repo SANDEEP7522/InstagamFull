@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import { Button, TextField, Snackbar, Alert } from "@mui/material";
-import axios from 'axios';
-
-
-
+import axios from "axios";
 
 export default function Signup() {
-
   const [input, setInput] = useState({
     username: "",
     email: "",
@@ -14,10 +10,10 @@ export default function Signup() {
   });
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-  
-  
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [loding, setLoding] = useState(false);
+
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -25,36 +21,45 @@ export default function Signup() {
   const signupHandler = async (event) => {
     event.preventDefault();
     console.log(input);
-    
-    try { // fetch my api frome backend
-      const res = await axios.post('http://localhost:8000/api/v1/user/register', input, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        withCredentials: true
-      });
 
+    try {
+      // fetch my api frome backend
+      setLoding(true);
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/user/register",
+        input,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
-
-      if (res.data.success) { // success login
+      if (res.data.success) {
+        // success login
         setSnackbarMessage(res.data.message);
-        setSnackbarSeverity('success');
-      } else { // ifr we fail then 
-        setSnackbarMessage(res.data.message || 'Registration failed.');
-        setSnackbarSeverity('error');
+        setSnackbarSeverity("success");
+        setInput({
+          username: "",
+          email: "",
+          password: "",
+        });
+      } else {
+        // ifr we fail then
+        setSnackbarMessage(res.data.message || "Registration failed.");
+        setSnackbarSeverity("error");
       }
-    
-    
     } catch (error) {
       console.log(error);
       // without given information try to submit
       const errorMessage =
-        error.response?.data?.message || 
-        error.message || 
-        'An error occurred. Please try again.';
+        error.response?.data?.message ||
+        error.message ||
+        "An error occurred. Please try again.";
 
       setSnackbarMessage(errorMessage);
-      setSnackbarSeverity('error');
+      setSnackbarSeverity("error");
     } finally {
       setSnackbarOpen(true);
     }
@@ -62,11 +67,15 @@ export default function Signup() {
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
+    setLoding(false);
   };
 
   return (
     <div className="flex items-center w-screen h-screen justify-center ">
-      <form onSubmit={signupHandler} className="shadow-lg flex flex-col gap-5 p-8">
+      <form
+        onSubmit={signupHandler}
+        className="shadow-lg flex flex-col gap-5 p-8"
+      >
         <div>
           <h2 className="text-center font-bold text-xl">LOGO</h2>
           <p className="text-center text-sm">
@@ -113,12 +122,16 @@ export default function Signup() {
         </Button>
       </form>
 
-     <Snackbar
+      <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
       >
-        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
           {snackbarMessage}
         </Alert>
       </Snackbar>
