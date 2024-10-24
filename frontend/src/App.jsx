@@ -1,21 +1,28 @@
 import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import MainLayout from "./Components/mainLayout";
+import Home from "./Components/Home";
 import Login from "./Components/login";
 import Signup from "./Components/signup";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Profile from "./Components/Profile";
 
-const creatBrewser = createBrowserRouter([
+const browserRouter = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
     children: [
       {
-        path: "/",
-        element: <Home />,
+        path: "/", 
+        element: <Home />
       },
-    ],
+      {
+        path: "/profile", 
+        element: <Profile />
+      },
+    ]
   },
   {
-    path: "/Login",
+    path: "/login",
     element: <Login />,
   },
   {
@@ -27,7 +34,7 @@ const creatBrewser = createBrowserRouter([
 function App() {
   return (
     <>
-      <RouterProvider  router= {creatBrewser}  />
+       <RouterProvider router={browserRouter} />
     </>
   );
 }

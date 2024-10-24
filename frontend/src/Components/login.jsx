@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, TextField, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [input, setInput] = useState({
@@ -12,6 +13,7 @@ export default function Login() {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [loding, setLoding] = useState(false);
+  const navigate = useNavigate();
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -36,7 +38,7 @@ export default function Login() {
       );
 
       if (res.data.success) {
-        // success login
+        navigate("/");
         setSnackbarMessage(res.data.message);
         setSnackbarSeverity("success");
         setInput({
@@ -105,9 +107,22 @@ export default function Login() {
             />
           </div>
         </div>
-        <Button type="submit" variant="contained">
-          Sign up
-        </Button>
+        {loding ? (
+          <Button type="submit" variant="contained">
+            plese Wait.........
+          </Button>
+        ) : (
+          <Button type="submit" variant="contained">
+            Sign up
+          </Button>
+        )}
+
+        <span>
+          No Accout, first Singup?{" "}
+          <Link to="/signup" className="text-blue-700  ">
+            Signup
+          </Link>{" "}
+        </span>
       </form>
 
       <Snackbar
