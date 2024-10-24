@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Button, TextField, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
 
-export default function Signup() {
+export default function Login() {
   const [input, setInput] = useState({
-    username: "",
     email: "",
     password: "",
   });
@@ -26,7 +25,7 @@ export default function Signup() {
       // fetch my api frome backend
       setLoding(true);
       const res = await axios.post(
-        "http://localhost:8000/api/v1/user/register",
+        "http://localhost:8000/api/v1/user/login",
         input,
         {
           headers: {
@@ -41,7 +40,6 @@ export default function Signup() {
         setSnackbarMessage(res.data.message);
         setSnackbarSeverity("success");
         setInput({
-          username: "",
           email: "",
           password: "",
         });
@@ -80,21 +78,10 @@ export default function Signup() {
         <div>
           <h2 className="text-center font-bold text-xl ">LOGO</h2>
           <p className="text-center text-sm">
-            Sign up to see phone & video from your friends
+            Login up to see phone & video from your friends
           </p>
         </div>
         <div>
-          <div className="font-medium mt-8">
-            <TextField
-              type="text"
-              name="username"
-              value={input.username}
-              onChange={changeEventHandler}
-              id="outlined-basic"
-              label="UserName"
-              variant="outlined"
-            />
-          </div>
           <div className="font-medium mt-8">
             <TextField
               type="email"

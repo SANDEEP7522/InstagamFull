@@ -1,15 +1,35 @@
-import { useState } from 'react'
-import './App.css'
-import Signup from './Components/signup'
+import "./App.css";
+import Login from "./Components/login";
+import Signup from "./Components/signup";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+const creatBrewser = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+    ],
+  },
+  {
+    path: "/Login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+]);
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-  <>
- <Signup/>
-  </>
-  )
+    <>
+      <RouterProvider  router= {creatBrewser}  />
+    </>
+  );
 }
 
-export default App
+export default App;
