@@ -1,21 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Post.css";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
 import img1 from "../../assets/1.jpg";
-import img2 from "../../assets/2.jpeg";
-import img3 from "../../assets/3.jpeg";
-import img4 from "../../assets/4.jpeg";
-import img5 from "../../assets/5.jpeg";
-import img6 from "../../assets/6.jpg";
-import img8 from "../../assets/8.jpg";
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Avatar, Button, Menu, MenuItem } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa";
 import { FaPaperPlane, FaBookmark } from "react-icons/fa";
+import CommentDilog from "../Comment/CommentDilog";
+import Story from "../Status/Story";
 
 function Post() {
+  const [text, setText] = useState("");
+  const [opens, setOpens] = useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -24,40 +20,19 @@ function Post() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const changeEventHandler = (event) => {
+    const inputText = event.target.value;
+    if (inputText.trim) {
+      setText(inputText);
+    } else {
+      setText("");
+    }
+  };
+
   return (
     <div className="post  grid-cols-1 grid-rows-5 gap-4 z-5 h-full items-start  bg-pink-300 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-200 ">
-      <div className=" flex justify-center  items-center m-2 cursor-pointer ">
-        <Stack direction="row" spacing={2}>
-          <div>
-            <Avatar alt="Remy Sharp" src={img1} />
-            sandeep
-          </div>
-          <div>
-            <Avatar alt="Remy Sharp" src={img2} />
-            sandeep
-          </div>
-          <div>
-            <Avatar alt="Remy Sharp" src={img3} />
-            sandeep
-          </div>
-          <div>
-            <Avatar alt="Remy Sharp" src={img4} />
-            sandeep
-          </div>
-          <div>
-            <Avatar alt="Remy Sharp" src={img5} />
-            sandeep
-          </div>
-          <div>
-            <Avatar alt="Remy Sharp" src={img6} />
-            sandeep
-          </div>
-          <div>
-            <Avatar alt="Remy Sharp" src={img8} />
-            sandeep
-          </div>
-        </Stack>
-      </div>
+      <Story />
 
       <div className=" justify-center m-[1rem] ">
         <div className="h-full w-full items-start  bg-pink-250 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-200">
@@ -113,12 +88,33 @@ function Post() {
           </div>
           <div className=" flex items-center justify-between  my-2 ml-2 ">
             <div className=" flex items-center gap-5 cursor-pointer ">
-             <FaRegHeart className="cursor-pointer hover:text-red-500"/>
-               <FaRegComment className="cursor-pointer hover:text-gray-500   " />
+              <FaRegHeart className="cursor-pointer hover:text-red-500" />
+              <FaRegComment onChange={() => setOpens(true)}  className="cursor-pointer hover:text-gray-500   " />
               <FaPaperPlane className="cursor-pointer hover:text-gray-500   " />
-            </div> <FaBookmark className="mr-2 cursor-pointer hover:text-gray-500"/>
+            </div>{" "}
+            <FaBookmark className="mr-2 cursor-pointer hover:text-gray-500" />
           </div>
-         
+
+          <span className=" font-medium mr-2 ml-2">1k Like</span>
+          <p>
+            <span className=" font-medium mr-2 ml-2">username</span>caption
+          </p>
+          <span className="  mr-2 ml-2 m-2 mt-[-2vh] text-sm ">
+            View all 10 comments
+          </span>
+          <div className="flex  items-center gap-2 ">
+            <CommentDilog />
+            <input
+              type="text"
+              placeholder="Add comments....."
+              value={text}
+              onChange={changeEventHandler}
+              className=" outline-none text-sm w-[70%] bg-[#eac3ea] "
+            />
+            {text && (
+              <span className="text-blue-500 cursor-pointer ">Post</span>
+            )}
+          </div>
         </div>
       </div>
     </div>
