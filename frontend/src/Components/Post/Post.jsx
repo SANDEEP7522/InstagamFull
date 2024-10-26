@@ -8,6 +8,7 @@ import { FaRegComment } from "react-icons/fa";
 import { FaPaperPlane, FaBookmark } from "react-icons/fa";
 import CommentDilog from "../Comment/CommentDilog";
 import Story from "../Status/Story";
+import PostHeader from "./postHeader";
 
 function Post() {
   const [text, setText] = useState("");
@@ -21,6 +22,8 @@ function Post() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  
   // when u write comment post button show
   const changeEventHandler = (event) => {
     const inputText = event.target.value;
@@ -33,7 +36,9 @@ function Post() {
 
       <div className=" justify-center m-[1rem] ">
         <div className="h-full w-full items-start  bg-pink-250 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-200">
-          <div className="flex justify-between items-center">
+
+          <PostHeader/>
+          {/* <div className="flex justify-between items-center">
             <Avatar alt="Remy Sharp" src={img1} />
             <div className="grid justify-start items-start ml-[-17rem] ">
               <p className=" flex justify-center m-2 text-lg font-medium  ">
@@ -75,7 +80,7 @@ function Post() {
                 </div>
               </Menu>
             </div>
-          </div>
+          </div> */}
           <div className="grid justify-center h-full w-full items-start  bg-pink-180 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-200">
             <img
               className=" rounded-sm my-2 m-full aspect-square object-cover "
@@ -128,7 +133,7 @@ function Post() {
         </div>
       </div>
       
-      <div className=" justify-center m-[1rem] ">
+      {/* <div className=" justify-center m-[1rem] ">
         <div className="h-full w-full items-start  bg-pink-250 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-200">
           <div className="flex justify-between items-center">
             <Avatar alt="Remy Sharp" src={img1} />
@@ -223,7 +228,7 @@ function Post() {
             )}
           </div>
         </div>
-      </div>
+      </div> */}
 
     </div>
   );
