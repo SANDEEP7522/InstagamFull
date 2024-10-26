@@ -1,14 +1,17 @@
-import { Avatar } from '@mui/material';
-import img8 from "../../assets/8.jpg";
+import { Dialog, DialogContent } from "@mui/material";
+import React from "react";
 
-import React from 'react'
-
-function CommentDilog() {
+const CommentDilog = ({ opens, setOpens }) => {
   return (
-    <div>
-    <Avatar alt="Remy Sharp" src={img8} />
-  </div>
-  )
-}
+     <Dialog open={opens} onClose={() => setOpens(false)}>
+      <DialogContent>
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_drZoS4Q2mT2kF-foAfDwu56w2WwrIT-Bvg&s"
+          alt="Post_img"
+        />
+      </DialogContent>
+     </Dialog>
+  );
+};
 
 export default CommentDilog;

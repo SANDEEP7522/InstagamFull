@@ -52,7 +52,7 @@ function LeftsideBar() {
     }
   };
   return (
-    <div className="bg-gradient-to-r from-cyan-300 to-blue-300">
+    <div >
       <div className=" flex top-2 z-10 px-3 left-0 h-screen w-[15%] bg-pink-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-200 ">
         <div className=" flex flex-col">
           <h1 className="flex font-bold text-2xl m-3 ">Instagram</h1>

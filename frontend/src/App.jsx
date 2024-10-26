@@ -1,10 +1,10 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import MainLayout from "./Components/mainLayout";
 import Home from "./Components/Home";
 import Login from "./Components/login";
 import Signup from "./Components/signup";
 import Profile from "./Components/Profile";
+import MainLayout from "./Components/MainLayout";
 
 const browserRouter = createBrowserRouter([
   {
