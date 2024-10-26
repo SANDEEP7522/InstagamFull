@@ -12,25 +12,29 @@ import {
 import { Avatar } from "@mui/material";
 import axios, { Axios } from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import store from "../../Redux/Store";
+import { setAuthUser } from "../../Redux/authSlice";
 
-const sidebarItem = [ 
+// const sidebarItem = [ 
    
-  { icon: <Home />, text: "Home" },
-  { icon: <Search />, text: "Search" },
-  { icon: <TrendingUp />, text: "TrendingUp" },
-  { icon: <MessageCircle />, text: "Chat" },
-  { icon: <Heart />, text: "Heart" },
-  { icon: <PlusSquare />, text: "Creat" },
-  {
-    icon: <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />,
-    text: "Profile",
-  },
-  { icon: <LogOut />, text: "Logout" },
-];
+//   { icon: <Home />, text: "Home" },
+//   { icon: <Search />, text: "Search" },
+//   { icon: <TrendingUp />, text: "TrendingUp" },
+//   { icon: <MessageCircle />, text: "Chat" },
+//   { icon: <Heart />, text: "Heart" },
+//   { icon: <PlusSquare />, text: "Creat" },
+//   {
+//     icon: <Avatar alt="Cindy Baker" src={user?.profilePicture} />,
+//     text: "Profile",
+//   },
+//   { icon: <LogOut />, text: "Logout" },
+// ];
 
 function LeftsideBar() {
     const navigate = useNavigate();
-
+    const {user} = useSelector(store => store.auth);
+    const dispatch = useDispatch();
   const logoutHandler = async () => {
     
     try {
@@ -39,6 +43,7 @@ function LeftsideBar() {
       });
 
       if (res.data.success) {
+        dispatch(setAuthUser(null)); // sending a message to your app saying, "Hey, something has changed!" 
         navigate("/login");
         alert(res.data.success)
       }
@@ -51,6 +56,23 @@ function LeftsideBar() {
       logoutHandler();
     }
   };
+
+  const sidebarItem = [ 
+   
+    { icon: <Home />, text: "Home" },
+    { icon: <Search />, text: "Search" },
+    { icon: <TrendingUp />, text: "TrendingUp" },
+    { icon: <MessageCircle />, text: "Chat" },
+    { icon: <Heart />, text: "Heart" },
+    { icon: <PlusSquare />, text: "Creat" },
+    { // here some backend problems
+      icon: <Avatar alt="CindyBaker" src="{user?.profilePicture} "/>,
+      text: "Profile",
+    },
+    { icon: <LogOut />, text: "Logout" },
+  ];
+  
+
   return (
     <div >
       <div className=" flex top-2 z-10 px-3 left-0 h-screen w-[15%] bg-pink-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-200 ">

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, TextField, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setAuthUser } from "../Redux/authSlice";
 
 export default function Login() {
   const [input, setInput] = useState({
@@ -14,6 +16,7 @@ export default function Login() {
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [loding, setLoding] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -38,6 +41,7 @@ export default function Login() {
       );
 
       if (res.data.success) {
+        dispatch(setAuthUser(res.data.user));
         navigate("/");
         setSnackbarMessage(res.data.message);
         setSnackbarSeverity("success");
