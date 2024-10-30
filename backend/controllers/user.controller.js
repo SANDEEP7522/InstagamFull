@@ -1,5 +1,4 @@
-
-import  User  from "../models/user.model.js";
+import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import getDatauri from "../utils/datauri.js";
@@ -63,7 +62,7 @@ export const login = async (req, res) => {
         success: false,
       });
     }
-    // ispasswordMatch check your password and compare in database matched match or not
+    // ispasswordMatch check your password match and compare in database matched match or not
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
       return res.status(401).json({
@@ -71,46 +70,47 @@ export const login = async (req, res) => {
         success: false,
       });
     }
-     // use toke for security youPassword hacker not get
-     const token = await jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+    // use toke for security youPassword hacker not get
+    const token = await jwt.sign({ userId:user._id },process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
 
     // populate each post  if in posts array
     const populatedPosts = await Promise.all(
-      user.posts.map( async (postId) => {
+      user.posts.map(async (postId) => {
         const post = await Post.findById(postId);
-        if(post.author.equals(user._id)){
+        if (post.author.equals(user._id)) {
           return post;
         }
         return null;
       })
-    )
-
+    );
+    // Filter out null posts
+     const validPosts = populatedPosts.filter((post) => post !== null);
 
     // store in frontend
     user = {
       _id: user._id,
       username: user.username,
       email: user.email,
-      profilepicture: user.profilePicture,
+      profilePicture: user.profilePicture,
       bio: user.bio,
       followers: user.followers,
       following: user.following,
       posts: populatedPosts,
+      // posts: user.posts
     };
 
-  
     return res
       .cookie("token", token, {
         httpOnly: true,
         sameSite: "strict",
-        maxAge: 1 * 24 * 61 * 60 * 1000,
+        maxAge: 1 * 24 * 61 * 60 * 1000,// 1day
       })
       .json({
         message: `Welcome back ${user.username}`,
         success: true,
-        user,
+        user
       });
   } catch (error) {
     console.log("login error", error);
@@ -133,7 +133,7 @@ export const logout = async (req, res) => {
 export const getProfile = async (req, res) => {
   try {
     const userId = req.params.id;
-    let user = await User.findById(userId).select('-password');
+    let user = await User.findById(userId).select("-password");
     return res.status(200).json({
       user,
       success: true,
@@ -150,13 +150,13 @@ export const editProfile = async (req, res) => {
     const { bio, gender } = req.body;
     const profilePicture = req.file;
     let cloudResponse;
-    
+  // Handle profile picture uploade
     if (profilePicture) {
       const fileUri = getDatauri(profilePicture);
-      cloudResponse = await cloudinary.uploader.upload(fileUri);
+      cloudResponse = await cloudinary.v2.uploader.upload(fileUri);
     }
     // that user we want to update (-password for egnore)
-    const user = await User.findById(userId).select('-password');
+    const user = await User.findById(userId).select("-password");
     if (!user) {
       return res.status(404).json({
         message: "User not found",
@@ -211,7 +211,6 @@ export const followingOrFolloers = async (req, res) => {
     const follow = req.id; // Your ID
     const followings = req.params.id; // The ID of the user to follow or unfollow
 
-    
     if (follow === followings) {
       return res.status(400).json({
         massage: "You are not able to follow/Unfollow it self!",

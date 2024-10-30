@@ -38,7 +38,7 @@ const CommentDilog = ({ opens, setOpens }) => {
   };
 
   return (
-    <Dialog open={opens} onClose={() => setOpens(false)}>
+    <Dialog open={opens} onClose={() => setOpens(false)}  className="backdrop-blur-sm bg-opacity-20 ">
       {/* <DialogContent> */}
       <div className="grid grid-cols-2 grid-rows-1 ">
         {/* post image open */}

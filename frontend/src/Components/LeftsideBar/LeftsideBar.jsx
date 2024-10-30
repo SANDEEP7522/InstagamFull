@@ -1,5 +1,6 @@
 import React from "react";
 import "./LeftsideBar.css"
+import { useState } from "react";
 import {
   Heart,
   Home,
@@ -13,29 +14,16 @@ import { Avatar } from "@mui/material";
 import axios, { Axios } from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import store from "../../Redux/Store";
 import { setAuthUser } from "../../Redux/authSlice";
-
-// const sidebarItem = [ 
-   
-//   { icon: <Home />, text: "Home" },
-//   { icon: <Search />, text: "Search" },
-//   { icon: <TrendingUp />, text: "TrendingUp" },
-//   { icon: <MessageCircle />, text: "Chat" },
-//   { icon: <Heart />, text: "Heart" },
-//   { icon: <PlusSquare />, text: "Creat" },
-//   {
-//     icon: <Avatar alt="Cindy Baker" src={user?.profilePicture} />,
-//     text: "Profile",
-//   },
-//   { icon: <LogOut />, text: "Logout" },
-// ];
+import CreatPost from "../Post/creatPost";
 
 function LeftsideBar() {
     const navigate = useNavigate();
     const {user} = useSelector(store => store.auth);
     const dispatch = useDispatch();
-  const logoutHandler = async () => {
+    const [open, setOpen] = useState(false);
+
+    const logoutHandler = async () => {
     
     try {
       const res = await axios.get("http://localhost:8000/api/v1/user/logout", {
@@ -51,10 +39,15 @@ function LeftsideBar() {
       console.log(error);
     }
   };
+
+
   const sidebarHandler = (textType) => {
     if (textType === "Logout") {
       logoutHandler();
+    }else if(textType === "Creat"){
+        setOpen(true);
     }
+
   };
 
   const sidebarItem = [ 
@@ -64,9 +57,9 @@ function LeftsideBar() {
     { icon: <TrendingUp />, text: "TrendingUp" },
     { icon: <MessageCircle />, text: "Chat" },
     { icon: <Heart />, text: "Heart" },
-    { icon: <PlusSquare />, text: "Creat" },
+    { icon: <PlusSquare  />, text: "Creat" },
     { // here some backend problems
-      icon: <Avatar alt="CindyBaker" src="{user?.profilePicture} "/>,
+      icon: <Avatar alt="CindyBaker" src={user?.profilePicture}/>,
       text: "Profile",
     },
     { icon: <LogOut />, text: "Logout" },
@@ -91,7 +84,9 @@ function LeftsideBar() {
             );
           })}
         </div>
-       </div> 
+
+       </div>
+       <CreatPost open={open} setOpen={setOpen} /> 
     </div>
   );
 }

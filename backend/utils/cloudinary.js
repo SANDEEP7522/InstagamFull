@@ -1,8 +1,10 @@
-import { v2 as cloudinary } from "cloudinary"; // like convert name or same
+import cloudinary from 'cloudinary';
 import dotenv from 'dotenv';
-dotenv.config({});
 
-cloudinary.config({
+dotenv.config();
+
+
+cloudinary.v2.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET,

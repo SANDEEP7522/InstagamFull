@@ -35,7 +35,6 @@ app.use(cors(corsOptions));
 // api here
 app.use("/api/v1/user", userRoute);
 // 'http.//localhost:8000/api/v1/user/resiter' it's our api working like this and show your browser screen 
-
 app.use("/api/v1/post", postRoute);
 app.use("/api/v1/message", messageRoute);
 
