@@ -32,9 +32,12 @@ function CreatPost({ open, setOpen }) {
   };
 
   const createPostHandler = async (event) => {
-     // event.preventDefault();
-     //console.log(file, caption);
-    
+    //   event.preventDefault();
+    // console.log(file, caption);
+    if (!caption) {
+      alert.error("Caption cannot be empty."); // Ensure alert is defined
+      return;
+    }
       const formData = new FormData();
       formData.append("caption", caption)// append mean add data
        if (imagePreview) {
@@ -43,17 +46,21 @@ function CreatPost({ open, setOpen }) {
        }
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:8000/api/v1/post/addpost", formData, {
+      const res = await axios.post('http://localhost:8000/api/v1/post/addpost', formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         },
         withCredentials:true,
       });
+   //   console.log("Response from server:", res);
      
        if (res.data && res.data.success) {
         alert.success(res.data.success);
-        alert.error("Failed to add post. Please try again.");
-       }
+         }
+       else {
+        console.log("Failed response data:", res.data);
+        alert.error("Failed to add post. Please try again.");  
+        }
 
     } catch (error) {
       console.log(error);

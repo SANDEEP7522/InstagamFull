@@ -1,7 +1,15 @@
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs){
+  return twMerge(clsx(inputs));
+}
+
 // kisi file ko data url me Kaise read krte hai like this
 export const readFileAsDataUrl = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader(); // Use FileReader instead of FileRender
+      
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
           resolve(reader.result);
