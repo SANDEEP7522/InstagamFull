@@ -11,7 +11,8 @@ import React, { useRef, useState } from "react";
 import "./creatPost.css";
 import { readFileAsDataUrl } from "../lib/utils";
 import axios from "axios";
-
+// import { useSelector } from "react-redux";
+// import { setPosts } from "../../Redux/postSlice";
 
 
 
@@ -21,6 +22,11 @@ function CreatPost({ open, setOpen }) {
   const [caption, setCaption] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const [loading, setLoading] = useState(false);
+  // const {post} = useSelector(store => store.post)
+  // const {user} = useSelector(store => store.auth);
+  // const dispatch = dispatch();
+ 
+
 
   const fileChangeHandler = async (event) => {
     const file = event.target.files?.[0];
@@ -33,7 +39,7 @@ function CreatPost({ open, setOpen }) {
 
   const createPostHandler = async (event) => {
     //   event.preventDefault();
-    // console.log(file, caption);
+     console.log(file, caption);
     if (!caption) {
       alert.error("Caption cannot be empty."); // Ensure alert is defined
       return;
@@ -41,8 +47,7 @@ function CreatPost({ open, setOpen }) {
       const formData = new FormData();
       formData.append("caption", caption)// append mean add data
        if (imagePreview) {
-        formData.append("image", file)
-        
+        formData.append("image", file)       
        }
     try {
       setLoading(true);
@@ -55,7 +60,9 @@ function CreatPost({ open, setOpen }) {
    //   console.log("Response from server:", res);
      
        if (res.data && res.data.success) {
+      //  dispatch(setPosts([ res.data.post, ...posts]));// [old] -> [old, new] 
         alert.success(res.data.success);
+     //   setOpen(flase);
          }
        else {
         console.log("Failed response data:", res.data);
@@ -63,7 +70,8 @@ function CreatPost({ open, setOpen }) {
         }
 
     } catch (error) {
-      console.log(error);
+      console.error("Error response:", error.response ? error.response.data : error);
+
     } finally{
       setLoading(false)
     }
@@ -81,7 +89,9 @@ function CreatPost({ open, setOpen }) {
         </DialogTitle>
         <div className="flex gap-3 items-center">
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          {/* <Avatar alt="Remy Sharp" src={user?.profilePicture} /> */}
           <div>
+            {/* <h1 className=" text-xxl font-semibold ">{user?.username}</h1> */}
             <h1 className=" text-xxl font-semibold ">UserName</h1>
             <span className=" text-xs font-semibold font-sans    ">
               Bio here........
@@ -119,6 +129,7 @@ function CreatPost({ open, setOpen }) {
               onClick={createPostHandler}
               variant="contained"
               type="submit"
+              disabled={loading}
             >
               Post
             </Button>

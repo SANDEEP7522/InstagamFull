@@ -55,7 +55,7 @@ export const getAllPost = async (req, res) => {
   try {
     const posts = await Post.find()
       .sort({ createdAt: -1 }) //-1 img lik insta
-      .populate({ path: "author", select: "username, profilePicture" }) // user ki  profilePicture bs dikhe gi
+      .populate({ path: "author", select: "username profilePicture" }) // user ki  profilePicture bs dikhe gi
       .populate({
         // ap ki post pr koi comment krta hai to
         path: "comments",
@@ -63,7 +63,7 @@ export const getAllPost = async (req, res) => {
         populate: {
           // who one comment on your post
           path: "author",
-          select: "username, profilePicture",
+          select: "username profilePicture",
         },
       });
     return res.status(200).json({

@@ -9,7 +9,6 @@ const isAuthenticated = async (req, res, next) => {
         success: false,
       });
     }
-
     // Verify the token
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     req.id = decoded.userId; // Store user ID in the request object

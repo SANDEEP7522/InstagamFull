@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema( // for post information
   {
-    cation: {
+    caption: {
       // write something below your image
       type: String,
       default: "",
