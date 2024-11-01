@@ -13,8 +13,7 @@ import { readFileAsDataUrl } from "../lib/utils";
 import axios from "axios";
 // import { useSelector } from "react-redux";
 // import { setPosts } from "../../Redux/postSlice";
-
-
+import { toast } from "react-toastify";
 
 function CreatPost({ open, setOpen }) {
   const imageRef = useRef();
@@ -25,8 +24,6 @@ function CreatPost({ open, setOpen }) {
   // const {post} = useSelector(store => store.post)
   // const {user} = useSelector(store => store.auth);
   // const dispatch = dispatch();
- 
-
 
   const fileChangeHandler = async (event) => {
     const file = event.target.files?.[0];
@@ -39,41 +36,45 @@ function CreatPost({ open, setOpen }) {
 
   const createPostHandler = async (event) => {
     //   event.preventDefault();
-     console.log(file, caption);
+    console.log(file, caption);
     if (!caption) {
-      alert.error("Caption cannot be empty."); // Ensure alert is defined
+      toast.error("Caption cannot be empty."); // Ensure alert is defined
       return;
     }
-      const formData = new FormData();
-      formData.append("caption", caption)// append mean add data
-       if (imagePreview) {
-        formData.append("image", file)       
-       }
+    const formData = new FormData();
+    formData.append("caption", caption); // append mean add data
+    if (imagePreview) {
+      formData.append("image", file);
+    }
     try {
       setLoading(true);
-      const res = await axios.post('http://localhost:8000/api/v1/post/addpost', formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        },
-        withCredentials:true,
-      });
-   //   console.log("Response from server:", res);
-     
-       if (res.data && res.data.success) {
-      //  dispatch(setPosts([ res.data.post, ...posts]));// [old] -> [old, new] 
-        alert.success(res.data.success);
-     //   setOpen(flase);
-         }
-       else {
-        console.log("Failed response data:", res.data);
-        alert.error("Failed to add post. Please try again.");  
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/post/addpost",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
         }
+      );
+      //   console.log("Response from server:", res);
 
+      if (res.data && res.data.success) {
+        //  dispatch(setPosts([ res.data.post, ...posts]));// [old] -> [old, new]
+        toast.success(res.data.success);
+        //   setOpen(flase);
+      } else {
+        console.log("Failed response data:", res.data);
+        toast.error("Failed to add post. Please try again.");
+      }
     } catch (error) {
-      console.error("Error response:", error.response ? error.response.data : error);
-
-    } finally{
-      setLoading(false)
+      console.error(
+        "Error response:",
+        error.response ? error.response.data : error
+      );
+    } finally {
+      setLoading(false);
     }
   };
 

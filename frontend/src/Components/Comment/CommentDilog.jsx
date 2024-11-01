@@ -2,7 +2,6 @@ import {
   Avatar,
   Button,
   Dialog,
-  DialogContent,
   Link,
   Menu,
   MenuItem,
@@ -16,7 +15,7 @@ const CommentDilog = ({ opens, setOpens }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [text, setText] = useState("");
-
+  
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -38,7 +37,11 @@ const CommentDilog = ({ opens, setOpens }) => {
   };
 
   return (
-    <Dialog open={opens} onClose={() => setOpens(false)}  className="backdrop-blur-sm bg-opacity-20 ">
+    <Dialog
+      open={opens}
+      onClose={() => setOpens(false)}
+      className="backdrop-blur-sm bg-opacity-20 "
+    >
       {/* <DialogContent> */}
       <div className="grid grid-cols-2 grid-rows-1 ">
         {/* post image open */}

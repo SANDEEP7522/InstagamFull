@@ -4,20 +4,24 @@ import img1 from "../../assets/1.jpg";
 import { Avatar, Button, Menu, MenuItem } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { FaRegHeart } from "react-icons/fa";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { FaRegComment } from "react-icons/fa";
 import { FaPaperPlane, FaBookmark } from "react-icons/fa";
 import CommentDilog from "../Comment/CommentDilog";
 import Story from "../Status/Story";
 import PostHeader from "./postHeader";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 
 function Post({ post }) {
   const [text, setText] = useState("");
   const [opens, setOpens] = useState(false);
   // const [liked, setLiked] = useState(post.likes.includes(user?._id) || false);
   // const [postLike, setPostLike] = useState(post.likes.length);
- 
+  // const [comment, setComment] = useState(post.comments)
+  const dispatch = useDispatch();
+
   // when u write comment post button show
   const changeEventHandler = (event) => {
     const inputText = event.target.value;
@@ -46,15 +50,45 @@ function Post({ post }) {
                 ...po, // po = all post without kikes and stck here all old value
                 likes: liked
                   ? po.likes.filter((id) => id !== user._id)
-                  : [...po.likes, user._id],// if anyone like your post then add the liker id
+                  : [...po.likes, user._id], // if anyone like your post then add the liker id
               }
             : po
         );
         dispatch(setPosts(updatePostData));
-        alert.success(res.data.message);
+        toast.success(res.data.message);
       }
     } catch (error) {
       console.log("like or dislike error", error);
+    }
+  };
+
+  const commentHandler = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/api/v1/post/${post._id}/comment`,
+        { text },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+
+      if (res.data.success) {
+        const updatedCommentData = [...comment, res.data.message];
+        setComment(updatedCommentData); // coment updated
+
+        const updatedPostData = posts.map((p) =>
+          p._id === post._id ? { ...p, comments: updatedCommentData } : p
+        );
+        dispatch(setPost(updatedPostData));
+
+        toast.success(res.data.message);
+        setText("");
+      }
+    } catch (error) {
+      console.log("comment error", error);
     }
   };
 
@@ -82,7 +116,7 @@ function Post({ post }) {
               />
 
               } */}
-               <FaRegHeart
+              <FaRegHeart
                 onClick={likeOrDislikeHandler}
                 className="cursor-pointer hover:text-red-500"
               />
@@ -112,7 +146,8 @@ function Post({ post }) {
             onClick={() => setOpens(true)}
             className="  mr-2 ml-2 m-2 mt-[-2vh] text-sm cursor-pointer "
           >
-            View all 10 comments
+            {/* View all {comment.length} comments */}
+            View all 1k comments
           </span>
           <CommentDilog opens={opens} setOpens={setOpens} />
 
@@ -125,7 +160,12 @@ function Post({ post }) {
               className=" outline-none text-sm w-[70%] bg-[#eac3ea] "
             />
             {text && (
-              <span className="text-blue-500 cursor-pointer ">Post</span>
+              <span
+                onClick={commentHandler}
+                className="text-blue-500 cursor-pointer "
+              >
+                Post
+              </span>
             )}
           </div>
         </div>
