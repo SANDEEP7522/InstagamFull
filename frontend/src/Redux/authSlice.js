@@ -1,21 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit"
-import SuggestedUser from "../Components/SuggestedUsers/SuggestedUser";
 
-
-const authSlice = createSlice({
+ const authSlice = createSlice({
     name: "auth",
     initialState:{
         user:null,
-        SuggestedUsers:[]
+        suggestedUsers:[],
+        userProfile:null,// when u click any user profile get that user profile
     },
     reducers:{
         setAuthUser:(state, action) =>{
         state.user = action.payload;
     },
     setSuggestedUsers: (state, action) => {
-        state.SuggestedUsers = action.payload;
+        state.suggestedUsers = action.payload;
+    },
+    setUserProfile: (state, action) => {
+        state.userProfile = action.payload;
     }
 }
 });
-export const  {setAuthUser, setSuggestedUsers} = authSlice.actions;
+export const  {setAuthUser, setSuggestedUsers, setUserProfile} = authSlice.actions;
 export default authSlice.reducer; 

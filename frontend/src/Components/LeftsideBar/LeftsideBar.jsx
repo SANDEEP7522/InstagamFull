@@ -49,12 +49,13 @@ function LeftsideBar() {
       logoutHandler();
     }else if(textType === "Creat"){
         setOpen(true);
+    }else if(textType === "profile"){
+      navigate(`/profile/${user?._id}`)
     }
 
   };
 
   const sidebarItem = [ 
-   
     { icon: <Home />, text: "Home" },
     { icon: <Search />, text: "Search" },
     { icon: <TrendingUp />, text: "TrendingUp" },
