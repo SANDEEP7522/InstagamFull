@@ -39,13 +39,17 @@ function PostHeader( {post} ) {
     <div className="flex justify-between items-center">
       <Avatar alt="Remy Sharp" src={img1} />
       {/* <Avatar alt="Remy Sharp" src={post.author?.profilePicture} /> */}
-      <div className="grid justify-start items-start ml-[-17rem] ">
-        <p className=" flex justify-center m-2 text-lg font-medium  ">
-          sandeep
+      <div className="grid justify-start items-start ml-[-13rem] ">
+        <div className=" flex justify-center m-2 text-lg font-medium  ">
+          <p>sandeep</p> 
           {/* {post.author?.username} */}
           <b>.</b>
           <p className=" text-[small] font-[serif] "> 10h</p>
-        </p>
+          {/* {
+            user?._id === post.author._id && <button className="bg-[#7e7ee8] rounded-lg text-[x-small] h-6 w-12 items-center flex justify-center ml-2" >Author</button>
+          } */}
+          
+        </div>
         <p className=" m-2 mt-[-2vh] text-sm  ">Original music</p>
       </div>
       <div className="flex justify-start items-center ">

@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser } from "../../Redux/authSlice";
 import CreatPost from "../Post/creatPost";
+import { setPosts, setSelectedPost } from "../../Redux/postSlice";
 
 function LeftsideBar() {
     const navigate = useNavigate();
@@ -32,6 +33,8 @@ function LeftsideBar() {
 
       if (res.data.success) {
         dispatch(setAuthUser(null)); // sending a message to your app saying, "Hey, something has changed!" 
+        dispatch(setSelectedPost(null));
+        dispatch(setPosts([]));
         navigate("/login");
         alert(res.data.success)
       }

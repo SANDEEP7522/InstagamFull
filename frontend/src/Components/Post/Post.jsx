@@ -13,6 +13,7 @@ import PostHeader from "./postHeader";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
+import { setSelectedPost } from "../../Redux/postSlice";
 
 function Post({ post }) {
   const [text, setText] = useState("");
@@ -74,9 +75,10 @@ function Post({ post }) {
           withCredentials: true,
         }
       );
-
+    //  console.log(res.data);
+      
       if (res.data.success) {
-        const updatedCommentData = [...comment, res.data.message];
+        const updatedCommentData = [...comment, res.data.comment];
         setComment(updatedCommentData); // coment updated
 
         const updatedPostData = posts.map((p) =>
@@ -122,7 +124,7 @@ function Post({ post }) {
               />
               <FaRegComment
                 onClick={() => {
-                  console.log("Comment icon clicked");
+                  dispatch(setSelectedPost(post));
                   setOpens(true);
                 }}
                 className="cursor-pointer hover:text-gray-500"
@@ -141,14 +143,25 @@ function Post({ post }) {
           {/* <p>
             <span className=" font-medium mr-2 ml-2">{post.author?.username }</span>{post.caption}
           </p> */}
+            
 
-          <span
-            onClick={() => setOpens(true)}
+            
+          {/* {
+            comment.length >= 0 && (
+              <span
+            onClick={() => {
+              dispatch(setSelectedPost(post));
+              setOpens(true);
+            }}
             className="  mr-2 ml-2 m-2 mt-[-2vh] text-sm cursor-pointer "
           >
-            {/* View all {comment.length} comments */}
+           <p>View all {comment.length} comments</p>
             View all 1k comments
-          </span>
+          </span >
+            )   
+          } */}
+           view all 1k cin this commnet
+      
           <CommentDilog opens={opens} setOpens={setOpens} />
 
           <div className="flex  items-center gap-2 ">
